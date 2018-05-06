@@ -44,7 +44,21 @@ function getTweets(){
 	        for (i=0; i<tweets.length; i++) {
 	            var response = ('Number: ' + (i+1) + '\n' + tweets[i].created_at + '\n' + tweets[i].text + '\n');
 	            console.log(response);
-	            console.log("-------------------------");
+                console.log("-------------------------");
+                
+    
+                fs.appendFile("log.txt", response, function(err) {
+    
+                    // If the code experiences any errors it will log the error to the console.
+                    if (err) {
+                      return console.log(err);
+                    }
+                  
+                    
+                  });
+
+                  console.log("log.txt was updated!");
+
 	        };
 	    };
 	});
@@ -72,6 +86,25 @@ function getSpotify(){
 	        console.log("Preview Here: " + data.tracks.items[0].preview_url);
 	        console.log("Album: " + data.tracks.items[0].album.name);
             console.log("-------------------------");
+
+            var writeResponse = {
+                Artits: data.tracks.items[0].artists[0].name,
+                Song: data.tracks.items[0].name,
+                PreviewHere: data.tracks.items[0].preview_url,
+                Album: data.tracks.items[0].album.name,
+            };
+
+            fs.appendFile("log.txt", JSON.stringify(writeResponse, null, '\t'), function(err) {
+
+                // If the code experiences any errors it will log the error to the console.
+                if (err) {
+                  return console.log(err);
+                }
+              
+                // Otherwise, it will print: "movies.txt was updated!"
+                console.log("log.txt was updated!");
+              
+              });
         };
       });
 };
@@ -102,6 +135,29 @@ function getOMDB(){
 	        console.log("Plot: " + JSON.parse(body).Plot);
             console.log("Actors: " + JSON.parse(body).Actors);
             console.log("-------------------------");
+
+            var writeResponse = {
+                Title: JSON.parse(body).Title,
+                Year: JSON.parse(body).Year,
+                IMDBrating: JSON.parse(body).imdbRating,
+                RottenTomatoesRating: JSON.parse(body).tomatoRating,
+                Country: JSON.parse(body).Country,
+                Language: JSON.parse(body).Language,
+                Plot: JSON.parse(body).Plot,
+                Actors: JSON.parse(body).Actors,
+            };
+
+            fs.appendFile("log.txt", JSON.stringify(writeResponse, null, '\t'), function(err) {
+
+                // If the code experiences any errors it will log the error to the console.
+                if (err) {
+                  return console.log(err);
+                }
+              
+                // Otherwise, it will print: "movies.txt was updated!"
+                console.log("log.txt was updated!");
+              
+              });
         };
 
     });
@@ -134,9 +190,14 @@ function getRandom(){
                         console.log("Album: " + data.tracks.items[0].album.name);
                         console.log("-------------------------");
 
-                        var writeResponse = 
+                        var writeResponse = {
+                            Artist: data.tracks.items[0].artists[0].name,
+                            Song: data.tracks.items[0].name,
+                            preview: data.tracks.items[0].preview_url,
+                            Album:data.tracks.items[0].album.name,
+                        };
 
-                        fs.writeFile("log.txt", writeResponse, function(err) {
+                        fs.appendFile("log.txt", JSON.stringify(writeResponse, null, '\t'), function(err) {
 
                             // If the code experiences any errors it will log the error to the console.
                             if (err) {
